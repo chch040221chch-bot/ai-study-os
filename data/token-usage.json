@@ -1,0 +1,53 @@
+{
+  "currentModel": "mimo-v2.5-pro",
+  "sessionId": "785d0bcf-c3f5-4f19-acbc-1fbb84429879",
+  "sessionStart": "2026-05-30T13:25:52Z",
+  "lastUpdate": "2026-05-30T23:45:00Z",
+  "today": {
+    "date": "2026-05-30",
+    "inputTokens": 46500,
+    "outputTokens": 23250,
+    "cacheTokens": 13950,
+    "totalTokens": 83700,
+    "estimatedCost": 0.4924,
+    "requestCount": 156
+  },
+  "currentSession": {
+    "inputTokens": 46500,
+    "outputTokens": 23250,
+    "cacheTokens": 13950,
+    "totalTokens": 83700,
+    "duration": 36480,
+    "tokenSpeed": 23
+  },
+  "hourlyTrend": [
+    { "hour": "13:00", "tokens": 1200 },
+    { "hour": "14:00", "tokens": 3500 },
+    { "hour": "15:00", "tokens": 2800 },
+    { "hour": "16:00", "tokens": 4200 },
+    { "hour": "17:00", "tokens": 5100 },
+    { "hour": "18:00", "tokens": 3800 },
+    { "hour": "19:00", "tokens": 6200 },
+    { "hour": "20:00", "tokens": 8500 },
+    { "hour": "21:00", "tokens": 12300 },
+    { "hour": "22:00", "tokens": 15600 },
+    { "hour": "23:00", "tokens": 20500 }
+  ],
+  "taskBreakdown": [
+    { "task": "running command bash", "tokens": 25800, "count": 132, "percentage": 30.8 },
+    { "task": "write created file", "tokens": 18500, "count": 50, "percentage": 22.1 },
+    { "task": "reading file searching", "tokens": 12600, "count": 36, "percentage": 15.1 },
+    { "task": "done completed success", "tokens": 9800, "count": 28, "percentage": 11.7 },
+    { "task": "edit file modified", "tokens": 8200, "count": 10, "percentage": 9.8 },
+    { "task": "other tasks", "tokens": 8800, "count": 45, "percentage": 10.5 }
+  ],
+  "dailyHistory": [
+    { "date": "2026-05-24", "totalTokens": 45200, "cost": 0.28 },
+    { "date": "2026-05-25", "totalTokens": 52300, "cost": 0.32 },
+    { "date": "2026-05-26", "totalTokens": 38900, "cost": 0.24 },
+    { "date": "2026-05-27", "totalTokens": 61200, "cost": 0.38 },
+    { "date": "2026-05-28", "totalTokens": 72100, "cost": 0.44 },
+    { "date": "2026-05-29", "totalTokens": 58400, "cost": 0.36 },
+    { "date": "2026-05-30", "totalTokens": 83700, "cost": 0.49 }
+  ]
+}
