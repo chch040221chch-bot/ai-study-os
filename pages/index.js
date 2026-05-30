@@ -52,6 +52,12 @@ export default function Home() {
                     {item}
                   </a>
                 ))}
+                <a
+                  href="/privacy"
+                  className="text-gray-400 hover:text-cyan-400 transition-colors"
+                >
+                  隐私安全
+                </a>
               </div>
 
               {/* 社交 */}

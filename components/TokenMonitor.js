@@ -15,6 +15,7 @@ import {
   Loader2
 } from 'lucide-react';
 import Link from 'next/link';
+import { Shield } from 'lucide-react';
 import { useWebSocket } from '../hooks/useWebSocket';
 
 export default function TokenMonitor() {
@@ -94,6 +95,11 @@ export default function TokenMonitor() {
             </h1>
           </div>
           <div className="flex items-center gap-4">
+            <Link href="/privacy" className="flex items-center gap-2 text-sm text-gray-400 hover:text-green-400 transition-colors">
+              <Shield className="w-4 h-4" />
+              <span>隐私安全</span>
+            </Link>
+            <div className="w-px h-5 bg-dark-700" />
             <div className={`flex items-center gap-2 text-sm ${connected ? 'text-green-400' : 'text-red-400'}`}>
               {connected ? <Wifi className="w-4 h-4" /> : <WifiOff className="w-4 h-4" />}
               <span>{connected ? 'WebSocket 已连接' : '未连接'}</span>
