@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
-  Bot,
   CheckCircle,
   Clock,
   AlertCircle,
@@ -13,9 +12,11 @@ import {
   WifiOff,
   Terminal,
   TrendingUp,
-  BarChart3
+  BarChart3,
+  Database
 } from 'lucide-react';
 import { useWebSocket } from '../hooks/useWebSocket';
+import { getStatusConfig } from '../lib/claude-status-map.js';
 
 const statusConfig = {
   running: {
@@ -57,7 +58,7 @@ const statusConfig = {
 };
 
 export default function AgentStatus() {
-  const { data, connected, error } = useWebSocket();
+  const { data, connected } = useWebSocket();
   const [pulse, setPulse] = useState(false);
 
   useEffect(() => {
@@ -78,6 +79,10 @@ export default function AgentStatus() {
   const status = data ? statusConfig[data.status] || statusConfig.idle : statusConfig.idle;
   const StatusIcon = status.icon;
 
+  // 获取 Claude 状态
+  const claudeStatus = data?.claudeStatus || data?.status || 'idle';
+  const claudeStatusConfig = getStatusConfig(claudeStatus);
+
   return (
     <section className="relative py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -90,10 +95,10 @@ export default function AgentStatus() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient">
-            Agent 控制面板
+            AI Agent 控制台
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            实时监控 Claude Code 状态，掌握任务进度
+            实时监控 Claude 智能体状态 · 中英双语状态提示
           </p>
         </motion.div>
 
@@ -112,7 +117,7 @@ export default function AgentStatus() {
             <span className={`text-sm ${connected ? 'text-green-400' : 'text-red-400'}`}>
               {connected ? 'WebSocket 已连接 - 实时同步中' : '未连接 - 等待重连...'}
             </span>
-            <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500 pulse-dot' : 'bg-red-500'}`} />
+            <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`} />
           </div>
         </motion.div>
 
@@ -141,25 +146,21 @@ export default function AgentStatus() {
                 </div>
               </div>
 
-              {/* 状态指示器 */}
-              <div className="ml-auto flex items-center gap-4">
-                <AnimatePresence>
-                  {data?.status === 'running' && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full"
-                    >
-                      <Loader2 className="w-4 h-4 text-cyan-400 animate-spin" />
-                      <span className="text-cyan-400 text-sm font-medium">Claude Running</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${status.bg} border ${status.border}`}>
-                  <StatusIcon className={`w-4 h-4 ${status.color} ${status.animate ? 'animate-spin' : ''}`} />
-                  <span className={`text-sm font-medium ${status.color}`}>{status.label}</span>
-                  <div className={`w-2 h-2 rounded-full ${status.dotColor} ${status.animate ? 'pulse-dot' : ''}`} />
+              {/* Claude 中英文状态 */}
+              <div className="ml-auto">
+                <div className={`px-5 py-3 rounded-xl ${claudeStatusConfig.bg} border ${claudeStatusConfig.border}`}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{claudeStatusConfig.icon}</span>
+                    <div>
+                      <div className={`text-sm font-mono ${claudeStatusConfig.color}`}>
+                        {claudeStatusConfig.english}...
+                      </div>
+                      <div className={`text-lg font-bold ${claudeStatusConfig.color}`}>
+                        {claudeStatusConfig.chinese}
+                      </div>
+                    </div>
+                    <div className={`w-3 h-3 rounded-full ${claudeStatusConfig.dotColor}`} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -217,7 +218,7 @@ export default function AgentStatus() {
           />
         </motion.div>
 
-        {/* 最近命令 + 任务统计 双列布局 */}
+        {/* 最近命令 + 任务统计 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* 最近命令 */}
           <motion.div
@@ -293,13 +294,25 @@ export default function AgentStatus() {
           </motion.div>
         </div>
 
+        {/* 数据来源与更新时间 */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-dark-900/30 border border-dark-800">
+          <div className="flex items-center gap-2 text-gray-500 text-sm">
+            <Database className="w-4 h-4" />
+            <span>数据来源：本地 Claude 日志</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-500 text-sm">
+            <Clock className="w-4 h-4" />
+            <span>最后更新：{data?.lastUpdate || new Date().toLocaleTimeString('zh-CN')}</span>
+          </div>
+        </div>
+
         {/* 安全提示 */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-8 p-4 rounded-xl bg-dark-900/30 border border-dark-800 text-center"
+          className="mt-4 p-4 rounded-xl bg-dark-900/30 border border-dark-800 text-center"
         >
           <p className="text-gray-500 text-sm">
             所有数据本地处理，不上传公网 - WebSocket 实时同步 - 仅读取本地日志

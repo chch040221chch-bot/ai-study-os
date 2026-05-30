@@ -4,12 +4,29 @@
 
 ## 功能模块
 
-1. **AI课程总结** - 智能提取课程重点，生成结构化笔记
-2. **AI论文助手** - 从选题到写作，AI全程辅助
-3. **PPT生成** - 一键生成专业演示文稿
-4. **Token监控** - 实时监控AI模型Token使用量
-5. **GitHub AI热榜** - 追踪最新AI开源项目
-6. **Agent控制面板** - 管理和调度AI Agent
+| 功能 | 说明 |
+|------|------|
+| **首页** | Hero 展示 + 功能模块 + Dashboard 预览 |
+| **Token Monitor** | 实时监控 Claude Token 使用量 |
+| **Privacy** | 隐私安全说明页 |
+| **Agent 状态** | Claude Agent 实时状态监控 |
+| **GitHub 热榜** | 追踪最新 AI 开源项目 |
+| **Claude 状态中文化** | 英文状态转换为中文提示 |
+
+## Claude 状态映射
+
+| 英文 | 中文 | 说明 |
+|------|------|------|
+| Thinking | 正在思考 | AI 分析问题中 |
+| Thundering | 高强度推理中 | 全力运算 |
+| Simmering | 后台低功耗运行 | 待机状态 |
+| Churning | 持续处理中 | 处理大量数据 |
+| Hullaballooing | 多线程狂热分析中 | 并行分析 |
+| Pollinating | 正在整理灵感 | 收集信息 |
+| Brewing | 正在酝酿方案 | 构思策略 |
+| Reading | 正在读取项目 | 扫描代码 |
+| Writing | 正在编写代码 | 生成实现 |
+| 未知状态 | AI 正在自主运行中 | 默认回退 |
 
 ## 技术栈
 
@@ -40,64 +57,33 @@ npm start
 
 ```
 ai-study-os/
+├── components/
+│   ├── AgentStatus.js      # Agent 状态面板
+│   ├── DashboardPreview.js # Dashboard 预览
+│   ├── Features.js         # 功能展示
+│   ├── GitHubTrending.js   # GitHub 热榜
+│   ├── Hero.js             # 首页主视觉
+│   └── TokenMonitor.js     # Token 监控
+├── hooks/
+│   └── useWebSocket.js     # WebSocket 钩子
+├── lib/
+│   ├── claude-collector.js # 数据采集
+│   └── claude-status-map.js # 状态映射
 ├── pages/
 │   ├── _app.js
-│   └── index.js
-├── components/
-│   ├── Hero.js
-│   ├── Features.js
-│   ├── DashboardPreview.js
-│   ├── AgentStatus.js
-│   └── GitHubTrending.js
-├── styles/
-│   └── globals.css
-├── public/
-├── package.json
-├── next.config.js
-├── tailwind.config.js
-└── postcss.config.js
+│   ├── index.js            # 首页
+│   ├── privacy.js          # 隐私页
+│   └── token.js            # Token 页
+├── server.js               # 自定义服务器
+└── package.json
 ```
 
-## 设计特点
+## 安全说明
 
-- 🎨 深色科技风 UI
-- ✨ 流畅动画效果
-- 📱 响应式布局
-- 🎯 iPad 优化
-- 🌟 玻璃态效果
-- 💫 动态状态卡片
-
-## 功能亮点
-
-### Hero Section
-- 渐变文字效果
-- 浮动动画元素
-- 统计数据展示
-- CTA 按钮
-
-### 功能展示
-- 六大核心模块
-- 卡片悬浮效果
-- 渐变图标
-- 动态加载
-
-### Dashboard 预览
-- 浏览器框架模拟
-- Token 统计卡片
-- 趋势图表
-- 分布进度条
-
-### Agent 状态
-- 实时状态监控
-- 进度条动画
-- 操作按钮
-- 统计信息
-
-### GitHub 热榜
-- 排名标识
-- 项目信息
-- Star 统计
-- 增长趋势
+- **本地读取**: 所有数据从本地 ~/.claude/ 目录读取
+- **不上传公网**: 数据处理均在本地完成
+- **不保存 API Key**: 不存储任何敏感凭据
+- **不执行危险命令**: 仅读取日志和配置文件
 
 ## 许可证
 
